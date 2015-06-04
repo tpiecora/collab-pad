@@ -1,8 +1,7 @@
 {
   "name": "collab-pad",
-  "private": true,
   "version": "0.0.0",
-  "description": "a Sails application",
+  "description": "A simple document collaboration app",
   "keywords": [],
   "dependencies": {
     "angular": "^1.4.0",
@@ -31,8 +30,8 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/michaelpiecora/collab-pad.git"
+    "url": "git://github.com/tpiecora/collab-pad.git"
   },
-  "author": "michaelpiecora",
-  "license": ""
+  "author": "Ted Piecora",
+  "license": "MIT"
 }

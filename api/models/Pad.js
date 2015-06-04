@@ -9,6 +9,14 @@ module.exports = {
 
   attributes: {
     content: {
+      type: 'string'
+    },
+    padId: {
+      type: 'string',
+      required: 'true',
+      unique: 'true'
+    },
+    userId: {
       type: 'string',
       required: 'true'
     }

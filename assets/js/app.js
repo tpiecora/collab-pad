@@ -1,1 +1,1 @@
-angular.module('collabPad', []);
+angular.module('collabPad', ['ngQuill']);

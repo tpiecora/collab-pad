@@ -1,33 +1,47 @@
 angular.module('collabPad')
   .controller('PadController', function ($http, $log, $scope) {
-    // get existing content
-    $scope.getAllContent = function(){
 
-      io.socket.get('/pad/addcontent');
+    // define our document object
+    $scope.data = {
+      userId: 'ted',
+      padId: 'test',
+      content: ''
+    };
 
-      $http.get('/pad')
-        .success(function(success_data){
+    io.socket.get('/pad/subscribe');
 
-          $scope.padContent = success_data[success_data.length-1].content;
-          $log.info(success_data);
+    io.socket.on('pad', function (obj) {
+      if(obj.verb === 'updated' && obj.data.padId === $scope.data.padId) {
+        $scope.data.content = obj.data.content;
+        $log.info('content updated')
+        $scope.$digest();
+      }
+      $log.info('got an update', obj);
+    });
+
+    $scope.newPad = function(pad, user) {
+      io.socket.post('/pad/getpad', $scope.data)
+    };
+
+    $scope.getPad = function (pad) {
+      io.socket.get('/pad/getpad', {padId: pad},
+        function (data) {
+          console.log(data);
+          $scope.data.content = data.content;
+          console.log(data.content);
+          $scope.$apply();
         });
     };
 
-    $scope.getAllContent();
+    $scope.sendPad = function () {
+      $log.info($scope.data.content);
+      io.socket.post('/pad/modify', $scope.data);
+    };
 
-    io.socket.on('pad', function (obj) {
-      if (obj.verb === 'created') {
-        $log.info(obj);
-        $scope.padContent = obj.data.content;
-        //is this digest really necessary?
-        $scope.$digest();
-
-      }
-    });
-
-    $scope.sendPad = function() {
-      if (!$scope.padContent) $scope.padContent = "";
-      $log.info($scope.padContent);
-      io.socket.post('/pad/addcontent/', {content: $scope.padContent});
+    $scope.getSubscribers = function(pad) {
+      io.socket.get('/pad/getsubscribers', {padId: pad}, function(data) {
+        $scope.subscribers = data;
+        $log.info(data);
+      });
     }
   });

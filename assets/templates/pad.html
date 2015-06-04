@@ -1,3 +1,9 @@
 <div ng-controller="PadController" class="col-md-12" style="padding:100px">
-  <textarea class="form-control" ng-change="sendPad()" ng-model="padContent"></textarea>
+  <label>User</label><input ng-model="data.userId" class="form-control" />
+  <label>padId</label><input ng-model="data.padId" class="form-control" />
+  <button ng-click="getPad(data.padId)">Get Pad</button>
+  <button ng-click="newPad(data.padId, data.userId)">New Pad</button>
+  <button ng-click="getSubscribers(data.padId)">Get Subscribers List</button>
+  <ul><li ng-repeat="subscriber in subscribers">{{subscriber}}</li></ul>
+  <ng-quill-editor caret ng-change="sendPad()" ng-model="data.content" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image" editor-required="true" required="" error-class="input-error"></ng-quill-editor>
 </div>
