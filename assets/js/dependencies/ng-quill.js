@@ -220,14 +220,16 @@
                     // Allows easy two-way binding for loading documents into ng-quill
                     $scope.$watch(function () {
                         return ngModel.$viewValue;
-                    }, function (newText) {
+                    }, function (newText, oldText) {
 
-                        if (newText) {
+                        if (newText && newText !== editor.getHTML()) {
                             editor.setHTML(newText);
                         }
+                      /*
                         if (newText === undefined) {
                             editor.setHTML('');
                         }
+                        */
                     });
                 }
             };

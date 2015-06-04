@@ -54,7 +54,7 @@ module.exports = {
       //Receiving new content from the client
       //Update pad contents
       sails.log.info('modify triggered', data);
-      Pad.update({padId: data.padId}, {content: data.content})
+      Pad.update({padId: data.padId}, {editor: data.editor, content: data.content})
         .exec(function(e, rData) {
           if (e) return sails.error(e);
           sails.log.info('pad updated', rData[0].id);

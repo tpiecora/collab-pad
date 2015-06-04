@@ -5,21 +5,26 @@ angular.module('collabPad')
     $scope.data = {
       userId: 'ted',
       padId: 'test',
-      content: ''
+      content: '',
+      editor: 'ted',
+      update: false
     };
 
     io.socket.get('/pad/subscribe');
 
     io.socket.on('pad', function (obj) {
-      if(obj.verb === 'updated' && obj.data.padId === $scope.data.padId) {
+      if(obj.data.editor === $scope.data.editor) {
+        $log.info('received changes made by this user')
+      } else if(obj.verb === 'updated' && obj.data.padId === $scope.data.padId) {
         $scope.data.content = obj.data.content;
-        $log.info('content updated')
+        $log.info('content updated');
         $scope.$digest();
       }
-      $log.info('got an update', obj);
+      //$log.info('got an update', obj);
     });
 
     $scope.newPad = function(pad, user) {
+      $scope.data.userId = $scope.data.editor;
       io.socket.post('/pad/getpad', $scope.data)
     };
 
@@ -38,10 +43,4 @@ angular.module('collabPad')
       io.socket.post('/pad/modify', $scope.data);
     };
 
-    $scope.getSubscribers = function(pad) {
-      io.socket.get('/pad/getsubscribers', {padId: pad}, function(data) {
-        $scope.subscribers = data;
-        $log.info(data);
-      });
-    }
   });

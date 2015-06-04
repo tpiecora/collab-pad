@@ -19,6 +19,9 @@ module.exports = {
     userId: {
       type: 'string',
       required: 'true'
+    },
+    editor: {
+      type: 'string'
     }
   }
 };
